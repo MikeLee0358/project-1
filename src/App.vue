@@ -5,11 +5,11 @@ article(id="🔥TodoList")
         input(id="🔥TodoList__Add__Input" type="text" v-model.trim="text" @keyup.enter="add_Todo")
         i(id="🔥TodoList__Add__Btn" class="fa-solid fa-plus fa-beat-fade fa-lg" @click="add_Todo")
     ul(id="🔥TodoList__TodoBox")
-        li(id="🔥TodoList__TodoBox__Todo" v-for="todo in todoBox" :key="todo.id") 
-            p(id="🔥TodoList__TodoBox__Todo__View")
+        li(id="🔥TodoList__TodoBox__Todo" v-for="(todo, index) in todoBox" :key="todo.id") 
+            label(:id="'🔥TodoList__TodoBox__Todo__View' + index" :for="'🔥TodoList__TodoBox__Todo__Edit' + index")
                 span(id="🔥TodoList__TodoBox__Todo__View__Text" @click="go_Edit(todo)") {{ todo.title }}
-                i(id="🔥TodoList__TodoBox__Todo__View__DeleteBtn" class="fa-regular fa-trash-can fa-sm" @click.stop="delete_Todo(todo.id)")
-            input(id="🔥TodoList__TodoBox__Todo__Edit" :class="{edit: todo.id === currentTodo.id}" type="text" v-model.trim="currentTodo.title" @focusout="edit_CancelTodo" @keyup.esc="edit_CancelTodo" @keyup.enter="edit_Todo(todo.id)")
+                i(id="🔥TodoList__TodoBox__Todo__View__DeleteBtn" class="fa-regular fa-trash-can fa-lg" @click.stop="delete_Todo(todo.id)")
+            input(:id="'🔥TodoList__TodoBox__Todo__Edit' + index" :class="{edit: todo.id === currentTodo.id}" type="text" v-model.trim="currentTodo.title" @focusout="edit_CancelTodo" @keyup.esc="edit_CancelTodo" @keyup.enter="edit_Todo(todo.id)")
 </template>
 
 <script setup>
@@ -88,7 +88,7 @@ function delete_Todo(id) {
         .then((json) => console.log(json));
 
 }
-/** 
+/** 透過id判斷要編輯的todo
  * @param {object} todo 
  */
 function go_Edit(todo) {
@@ -105,6 +105,7 @@ function go_Edit(todo) {
     place-content: center
     height: 100vh
     caret-color: transparent
+    font-size: 1.5rem
     &__Title
         text-align: center
     &__Add
@@ -115,6 +116,7 @@ function go_Edit(todo) {
         &__Input
             border: 0
             border-radius: 5px
+            padding: 0.75vw
             outline: 2px solid gray
             caret-color: black
     &__TodoBox
@@ -122,20 +124,22 @@ function go_Edit(todo) {
         padding-left: 0
         &__Todo
             position: relative
-            font-size: 1.25rem
-            &__View
+            & > label // 🔥TodoList__TodoBox__Todo__View' + {index}
                 display: flex
                 justify-content: space-between
                 align-items: center
                 border-bottom: 1px solid lightgray
-                &__Text
-                    width: 100%
-            &__Edit
+                margin-bottom: 1.5vh
+                > span  
+                    width: 100% // 增加label點擊文字觸發範圍
+            & > input // '🔥TodoList__TodoBox__Todo__Edit' + {index}
+                display: none
                 position: absolute
                 inset: 0
                 width: 100%
-                visibility: hidden
+                padding: 0
                 caret-color: black
 .edit
-    visibility: visible !important
+    display: block !important
+
 </style>
