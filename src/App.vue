@@ -3,12 +3,12 @@ article(id="🔥TodoList")
     h1(id="🔥TodoList__Title") Todo List
     section(id="🔥TodoList__Add")
         input(id="🔥TodoList__Add__Input" type="text" v-model.trim="text" @keyup.enter="add_Todo")
-        i(id="🔥TodoList__Add__Btn" class="fa-solid fa-plus fa-beat-fade fa-lg" @click="add_Todo")
+        i(id="🔥TodoList__Add__IconBtn" class="fa-solid fa-plus fa-beat-fade fa-lg" @click="add_Todo")
     ul(id="🔥TodoList__TodoBox")
         li(id="🔥TodoList__TodoBox__Todo" v-for="(todo, index) in todoBox" :key="todo.id") 
             label(:id="'🔥TodoList__TodoBox__Todo__View' + index" :for="'🔥TodoList__TodoBox__Todo__Edit' + index")
                 span(id="🔥TodoList__TodoBox__Todo__View__Text" @click="go_Edit(todo)") {{ todo.title }}
-                i(id="🔥TodoList__TodoBox__Todo__View__DeleteBtn" class="fa-regular fa-trash-can fa-lg" @click.stop="delete_Todo(todo.id)")
+                i(id="🔥TodoList__TodoBox__Todo__View__IconBtn" class="fa-regular fa-trash-can fa-lg" @click.stop="delete_Todo(todo.id)")
             input(:id="'🔥TodoList__TodoBox__Todo__Edit' + index" :class="{edit: todo.id === currentTodo.id}" type="text" v-model.trim="currentTodo.title" @focusout="edit_CancelTodo" @keyup.esc="edit_CancelTodo" @keyup.enter="edit_Todo(todo.id)")
 </template>
 
